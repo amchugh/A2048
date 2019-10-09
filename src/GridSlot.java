@@ -1,5 +1,3 @@
-import com.sun.jdi.PrimitiveValue;
-
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -10,7 +8,6 @@ public class GridSlot {
     int x, y, size;
 
     private static Color BACKGROUND_COLOR = new Color(0xE8FAFF);
-    private static Color BLANK_BACKGROUND_COLOR = new Color(0xB4C2C6);
     private static Color TEXT_COLOR = new Color(0x444949);
     private static int TEXT_SIZE = 30;
 
@@ -20,22 +17,20 @@ public class GridSlot {
         this.size = size;
     }
 
-    public void draw(Graphics g, int number) {
+    public void draw(Graphics g, ATileDetails tile) {
         // Test to see if the slot is blank
-        if (number == 0) {
-            // We're going to draw a blank tile then
-            g.setColor(BLANK_BACKGROUND_COLOR);
-            drawBackground(g);
+        if (!tile.doDisplay) {
+            // We wont draw anything if the tile doesnt have a display
             return;
         }
         // Fill the background
-        g.setColor(BACKGROUND_COLOR);
+        g.setColor(tile.backgroundColor);
         drawBackground(g);
         // Draw the number
         g.setColor(TEXT_COLOR);
         Font f = new Font("Courier", Font.PLAIN,TEXT_SIZE);
         g.setFont(f);
-        String s = String.valueOf(number);
+        String s = tile.displayValue;
         FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
         Rectangle2D r = f.getStringBounds(s, frc);
         g.drawString(s, x + size/2 - (int)r.getWidth()/2, y + size/2 +(int)r.getHeight()/4);
