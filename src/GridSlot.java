@@ -19,7 +19,7 @@ public class GridSlot {
 
     public void draw(Graphics g, ATileDetails tile) {
         // Test to see if the slot is blank
-        if (!tile.doDisplay) {
+        if (tile.isEmpty) {
             // We wont draw anything if the tile doesnt have a display
             return;
         }
